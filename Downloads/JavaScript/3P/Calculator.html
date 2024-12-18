@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>เครื่องคิดเลข </h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    <label for="num1">ตัวเลขที่ 1: </label>
+    <input type="number" id="num1"><br>
+    <label for="num2">ตัวเลขที่ 2: </label>
+    <input type="number" id="num2">
+    <div>
+        <label for="operation">เลือกการดำเนินการ:</label>
+        <select id="operation">
+            <option value="add">บวก</option>
+            <option value="minus">ลบ</option>
+            <option value="multiply">คูณ</option>
+            <option value="divide">หาร</option>
+        </select>
+    </div>
+    <input type="submit" value="คำนวณ" onclick="calculate()"><br><br>
+    <div id="cal" style="font-size: 30px; font-weight: bold;"></div>
+    <script>
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+            const resultDiv = document.getElementById('cal');
+            let result;
+            switch (operation) {
+                case 'add':
+                    result = num1 + num2;
+                    break;
+                case 'minus':
+                    result = num1 - num2;
+                    break;
+                case 'multiply':
+                    result = num1 * num2;
+                    break;
+                case 'divide':
+                    result = num1 / num2;
+                    break;
+                default:
+                    result = 'กรุณาเลือกการดำเนินการ';
+            }
+            resultDiv.textContent = `ผลลัพธ์: ${result}`;
+        }
+    </script>
+</body>
+</html>

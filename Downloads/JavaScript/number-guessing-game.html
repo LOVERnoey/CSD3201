@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Guessing Game</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #result {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>เกมทายหมายเลข</h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    ทายหมายเลข (1-100): <input type="number" id="guess-input" />
+    <button id="guess-btn">ทาย</button>
+
+    <div id="result"></div>
+
+    <script>
+      let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+      // Function Declaration to check guess
+      function checkGuess() {
+        const guess = parseInt(document.getElementById("guess-input").value);
+        let resultText = "";
+        if (guess === randomNumber) {
+          resultText = "คุณทายถูกต้อง!";
+        } else if (guess > randomNumber) {
+          resultText = "หมายเลขต่ำกว่า!";
+        } else {
+          resultText = "หมายเลขสูงกว่า!";
+        }
+        document.getElementById("result").innerText = resultText;
+      }
+
+      // Anonymous Function for button click event
+      document.getElementById("guess-btn").onclick = function () {
+        checkGuess();
+      };
+    </script>
+  </body>
+</html>

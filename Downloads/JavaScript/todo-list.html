@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List App</title>
+    <style>
+      /* สไตล์ของหน้าเว็บ */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      /* ระยะห่างระหว่างรายการกับส่วนอื่น */
+      #todo-list {
+        margin-top: 20px;
+      }
+      /* สไตล์ของรายการที่ทำเสร็จแล้ว */
+      .completed {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>รายการสิ่งที่ต้องทำ</h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    <!-- ช่องป้อนข้อความสำหรับเพิ่มงานใหม่ -->
+    <input type="text" id="todo-input" placeholder="เพิ่มงานใหม่..." />
+    <!-- ปุ่มสำหรับเพิ่มงาน -->
+    <button id="add-btn">เพิ่ม</button>
+
+    <!-- รายการสิ่งที่ต้องทำ -->
+    <ul id="todo-list"></ul>
+
+    <script>
+      // ฟังก์ชันสำหรับเพิ่มรายการสิ่งที่ต้องทำ (Function Declaration)
+      function addTodo() {
+        // ดึงข้อความจากช่องป้อนข้อมูล
+        const input = document.getElementById("todo-input");
+        const todoText = input.value;
+
+        // ตรวจสอบว่ามีข้อความหรือไม่
+        if (todoText) {
+          // สร้างรายการใหม่ (li)
+          const li = document.createElement("li");
+          li.textContent = todoText;
+
+          // เพิ่มเหตุการณ์คลิกเพื่อทำเครื่องหมายว่างานเสร็จแล้ว
+          li.onclick = toggleComplete;
+
+          // เพิ่มรายการใหม่เข้าไปในลิสต์
+          document.getElementById("todo-list").appendChild(li);
+
+          // ล้างข้อความในช่องป้อนข้อมูล
+          input.value = "";
+        }
+      }
+
+      // ฟังก์ชันสำหรับสลับสถานะรายการว่าเสร็จแล้วหรือไม่ (Function Expression)
+      const toggleComplete = function (event) {
+        // เพิ่มหรือลบคลาส 'completed' เพื่อเปลี่ยนสไตล์
+        event.target.classList.toggle("completed");
+      };
+
+      // ฟังก์ชันสำหรับลบรายการที่ทำเสร็จแล้ว (Arrow Function)
+      const clearCompleted = () => {
+        // เลือกรายการที่มีคลาส 'completed'
+        const items = document.querySelectorAll("#todo-list li.completed");
+
+        // ลบรายการเหล่านั้นออก
+        items.forEach((item) => item.remove());
+      };
+
+      // กำหนดเหตุการณ์คลิกสำหรับปุ่มเพิ่มงาน (Anonymous Function)
+      document.getElementById("add-btn").onclick = function () {
+        addTodo();
+      };
+
+      // สร้างปุ่มสำหรับลบงานที่ทำเสร็จแล้ว
+      const clearBtn = document.createElement("button");
+      clearBtn.textContent = "ลบงานที่เสร็จแล้ว";
+
+      // กำหนดเหตุการณ์คลิกสำหรับปุ่มลบงานที่เสร็จแล้ว
+      clearBtn.onclick = clearCompleted;
+
+      // เพิ่มปุ่มลบงานที่เสร็จแล้วเข้าไปในหน้าเว็บ
+      document.body.appendChild(clearBtn);
+    </script>
+  </body>
+</html>

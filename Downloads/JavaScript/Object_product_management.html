@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #product-list {
+      margin-top: 20px;
+    }
+    .product {
+      margin: 10px 0;
+    }
+    .product p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Product Management</h1>
+  <h3>Programmer Name: Woraphon Udom</h3>
+  <div id="product-list"></div>
+  <button onclick="addNewProduct()">Add Product</button>
+
+  <script>
+    // ใช้ Object Literal สำหรับเก็บข้อมูลสินค้า
+    const initialProducts = [
+      { id: 1, name: "Laptop", price: 1000 },
+      { id: 2, name: "Phone", price: 500 },
+    ];
+
+    // ใช้ Class Syntax สำหรับจัดการสินค้า
+    class ProductManager {
+      constructor(products) {
+        this.products = products;
+      }
+
+      // แสดงรายการสินค้า
+      displayProducts() {
+        const productList = document.getElementById("product-list");
+        productList.innerHTML = "";
+
+        this.products.forEach(product => {
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("product");
+          productDiv.innerHTML = `
+            <p><strong>${product.name}</strong></p>
+            <p>Price: $${product.price}</p>
+          `;
+          productList.appendChild(productDiv);
+        });
+      }
+
+      // เพิ่มสินค้าใหม่
+      addProduct(name, price) {
+        const newProduct = {
+          id: this.products.length + 1,
+          name: name,
+          price: price
+        };
+        this.products.push(newProduct);
+        this.displayProducts();
+      }
+    }
+
+    // สร้างอินสแตนซ์และแสดงสินค้าเริ่มต้น
+    const productManager = new ProductManager(initialProducts);
+    productManager.displayProducts();
+
+    // ฟังก์ชันสำหรับเพิ่มสินค้าใหม่
+    function addNewProduct() {
+      const name = prompt("Enter product name:");
+      const price = parseFloat(prompt("Enter product price:"));
+
+      if (name && !isNaN(price)) {
+        productManager.addProduct(name, price);
+      } else {
+        alert("Invalid input!");
+      }
+    }
+  </script>
+</body>
+</html>

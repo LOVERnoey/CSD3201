@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Click Counter</title>
+  </head>
+  <body>
+    <h1>Button Click Counter</h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    <p id="click-count">Button clicked 0 times.</p>
+    <button onclick="incrementClick()">Click Me</button>
+
+    <script>
+      var clickCount = 0;
+
+      function incrementClick() {
+        clickCount++;
+        document.getElementById(
+          "click-count"
+        ).innerText = `Button clicked ${clickCount} times.`;
+      }
+    </script>
+  </body>
+</html>

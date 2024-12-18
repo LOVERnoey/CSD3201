@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Calculator</title>
+</head>
+<body>
+    <h1>Sales Tax Calculator</h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    <p>Total Sales: $1000</p>
+    <p>Tax Rate: 15%</p>
+    <p id="total-amount">Total Amount: $1150</p>
+
+    <script>
+        var totalSales = 1000;
+        var taxRate = 0.15;
+        var totalAmount = totalSales + (totalSales * taxRate);
+
+        document.getElementById('total-amount').innerText = `Total Amount: $${totalAmount}`;
+    </script>
+</body>
+</html>

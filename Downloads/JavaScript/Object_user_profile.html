@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple User Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #profile {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>User Profile</h1>
+  <h3>Programmer Name: Woraphon Udom</h3>
+  <div id="profile"></div>
+
+  <script>
+    // ใช้ Object Literal สำหรับข้อมูลผู้ใช้
+    const user = {
+      name: "Woraphon",
+      age: 21,
+      getDetails: function() {
+        return `Name: ${this.name}, Age: ${this.age}`;
+      }
+    };
+
+    // ใช้ Class Syntax สำหรับการจัดการข้อมูลผู้ใช้
+    class UserProfile {
+      constructor(user) {
+        this.user = user;
+      }
+
+      displayProfile() {
+        const profileDiv = document.getElementById("profile");
+        profileDiv.innerHTML = `<p>${this.user.getDetails()}</p>`;
+      }
+    }
+
+    // สร้างอินสแตนซ์และแสดงข้อมูลโปรไฟล์
+    const userProfile = new UserProfile(user);
+    userProfile.displayProfile();
+  </script>
+</body>
+</html>

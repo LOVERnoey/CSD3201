@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>แอปทักทาย</h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    <label for="name">กรอกชื่อของคุณ: </label>
+    <input type="text" id="name" >
+    <input type="submit" value="ทักทาย" onclick="showGreeting()">
+    <div id="greeting"></div>
+    
+    <script>
+        function showGreeting() {
+            const name = document.getElementById('name').value;
+            const greetingDiv = document.getElementById('greeting');
+
+            if (name.trim() !== "") {
+                greetingDiv.textContent = `สวัสดี, ${name}!`;
+            } else {
+                greetingDiv.textContent = "กรุณากรอกชื่อก่อน!";
+            }
+        }
+    </script>
+</body>
+</html>

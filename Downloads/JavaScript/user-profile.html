@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <style>
+      /* สไตล์พื้นฐานของหน้า */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      /* ระยะห่างด้านบนของส่วนโปรไฟล์ */
+      #profile {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>โปรไฟล์ผู้ใช้</h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    <!-- ส่วนแสดงโปรไฟล์ผู้ใช้ -->
+    <div id="profile"></div>
+
+    <h2>แก้ไขข้อมูล</h2>
+    <!-- ช่องกรอกชื่อ -->
+    ชื่อ: <input type="text" id="name-input" /><br />
+    <!-- ช่องกรอกอายุ -->
+    อายุ: <input type="number" id="age-input" /><br />
+    <!-- ปุ่มสำหรับอัปเดตข้อมูล -->
+    <button id="update-btn">อัปเดตข้อมูล</button>
+
+    <script>
+      // Object เก็บข้อมูลผู้ใช้
+      const user = {
+        name: "สมชาย", // ชื่อเริ่มต้นของผู้ใช้
+        age: 30,       // อายุเริ่มต้นของผู้ใช้
+      };
+
+      // ฟังก์ชันแสดงข้อมูลโปรไฟล์ผู้ใช้ (Function Declaration)
+      function displayProfile() {
+        // ดึง element สำหรับแสดงโปรไฟล์
+        const profileDiv = document.getElementById("profile");
+        // อัปเดต HTML ของโปรไฟล์ด้วยข้อมูลปัจจุบัน
+        profileDiv.innerHTML = `<p>ชื่อ: ${user.name}</p><p>อายุ: ${user.age}</p>`;
+      }
+
+      // ฟังก์ชันสำหรับอัปเดตข้อมูลผู้ใช้ (Function Expression)
+      const updateProfile = function () {
+        // ดึงค่าจากช่องกรอกข้อมูล
+        const nameInput = document.getElementById("name-input").value;
+        const ageInput = document.getElementById("age-input").value;
+
+        // อัปเดตข้อมูลใน object user ถ้ามีการกรอกข้อมูล
+        if (nameInput) user.name = nameInput;
+        if (ageInput) user.age = parseInt(ageInput);
+
+        // แสดงข้อมูลที่อัปเดต
+        displayProfile();
+      };
+
+      // กำหนดเหตุการณ์คลิกปุ่มให้เรียกฟังก์ชัน updateProfile
+      document.getElementById("update-btn").onclick = updateProfile;
+
+      // เรียกฟังก์ชันแสดงข้อมูลโปรไฟล์เมื่อเริ่มต้นหน้า
+      displayProfile();
+    </script>
+  </body>
+</html>

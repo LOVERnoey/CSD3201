@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>ระบบจัดการหนังสือ</h1>
+    <h3>Programmer Name: Woraphon Udom</h3>
+    <label for="name">ชื่อหนังสือ: </label>
+    <input type="text" id="name"><br>
+    <label for="nameP">ผู้แต่ง: </label>
+    <input type="text" id="nameP"><br>
+    <label for="price">ราคา: </label>
+    <input type="number" id="price"><br>
+    <button onclick="addBook()">เพิ่มหนังสือ</button>
+    <h3>รายการหนังสือ</h3>
+    <div id="book" class="book-list"></div>
+
+    <script>
+        let books = [];
+
+        function addBook() {
+            const name = document.getElementById('name').value.trim();
+            const nameP = document.getElementById('nameP').value.trim();
+            const price = document.getElementById('price').value.trim();
+
+            if (name === "" || nameP === "" || price === "") {
+                alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+                return;
+            }
+
+            books.push({ name, author: nameP, price });
+
+            document.getElementById('name').value = "";
+            document.getElementById('nameP').value = "";
+            document.getElementById('price').value = "";
+
+            displayBooks();
+        }
+
+        function displayBooks() {
+            const bookDiv = document.getElementById('book');
+            bookDiv.innerHTML = ""; 
+
+            books.forEach((book, index) => {
+                const bookItem = document.createElement('div');
+                bookItem.className = "book-item";
+                bookItem.innerHTML = `
+                    ${book.name}</strong> โดย ${book.author} -฿${book.price}<button class="remove-btn" onclick="removeBook(${index})">ลบ</button>`;
+                bookDiv.appendChild(bookItem);
+            });
+        }
+
+        function removeBook(index) {
+            books.splice(index, 1);
+            displayBooks();
+        }
+    </script>
+
+</body>
+</html>
