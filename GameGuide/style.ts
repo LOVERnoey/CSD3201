@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontFamily: "Roboto",
         width: "100%",
-        paddingLeft: 40,
+        paddingLeft: 26,
     },
     //Link Details
     link:{

@@ -27,7 +27,7 @@ export default function HomeScreen() {
             <Text style={styles.redText}>PC</Text>
           </View>
           <View style={{ paddingLeft: 8 }}>
-            <Image style={styles.Image} source={require('../../assets/final.png')}></Image>
+            <Image style={styles.Image} source={require('../../assets/final1.png')}></Image>
           </View>
           <Text style={styles.gameNameHome}>Final Fantasy VII Rebirth</Text>
           {/* Mobile Example */}
