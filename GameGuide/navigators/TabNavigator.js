@@ -1,11 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../features/home/HomeScreen';
-import pc from '../features/tab/pc';
-import mobile from '../features/tab/mobile';
-import console from '../features/tab/console';
-import Details from '../features/home/Details';
 import StackNavigator from './StackNavigator';
+import mobile from '../features/tab/mobile';
+import pc from '../features/tab/pc';
+import console from '../features/tab/console';
 import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();

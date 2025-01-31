@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(52, 50, 62, 0.8)",
         borderRadius: 10,
         padding: 10,
-        margin: 10,
+        margin: 15,
         },
     text: {
         fontSize: 15,
@@ -77,13 +77,23 @@ const styles = StyleSheet.create({
         fontSize: 28,
         color: "#fff",
         fontFamily: "Roboto",
-        paddingRight: 200,
+        width: "100%",
+        paddingLeft: 40,
     },
     //Link Details
     link:{
         color: "#00FFA6",
         fontWeight: "bold",
-    }
+    },
+    nameGameDetails:{
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "#fff",
+        fontFamily: "Roboto",
+        paddingTop: 40,
+        width: "100%",
+        paddingLeft: 40,
+    },
 
     
 });
