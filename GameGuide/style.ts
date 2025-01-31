@@ -64,6 +64,27 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto",
         marginBottom: 25,
     },
+
+    //For mobile pc console
+    //name mobile pc console
+    rowContainerMode: {
+        flexDirection: "row",
+        paddingRight: 180,
+        paddingTop: 10,
+    },
+    //name game
+    gameNameMode:{
+        fontSize: 28,
+        color: "#fff",
+        fontFamily: "Roboto",
+        paddingRight: 200,
+    },
+    //Link Details
+    link:{
+        color: "#00FFA6",
+        fontWeight: "bold",
+    }
+
     
 });
 
