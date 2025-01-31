@@ -1,29 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import mobile from '../features/tab/mobile';
-import pc from '../features/tab/pc';
-import console from '../features/tab/console';
+import Console from '../features/tab/Console';
 import Details from '../features/home/Details';
 
 const Stack = createStackNavigator();
 
-export default function StackNavigator() {
+export default function ConsoleStack() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="Mobile"
-                component={mobile}
-                options={{
-                    headerTransparent: true,
-                    headerTitle: '',
-                }} />
-            <Stack.Screen name="Pc"
-                component={pc}
-                options={{
-                    headerTransparent: true,
-                    headerTitle: '',
-                }} />
             <Stack.Screen name="Console"
-                component={console}
+                component={Console}
                 options={{
                     headerTransparent: true,
                     headerTitle: '',

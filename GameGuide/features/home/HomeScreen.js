@@ -36,7 +36,7 @@ export default function HomeScreen() {
             <Text style={styles.redText}>Mobile</Text>
           </View>
           <View style={{ paddingLeft: 8 }}>
-            <Image style={styles.Image} source={require('../../assets/mobile/4GROUND9.jpg')}></Image>
+            <Image style={styles.Image} source={require('../../assets/4GROUND9.jpg')}></Image>
           </View>
           <Text style={styles.gameNameHome}>4GROUND9</Text>
           {/* Console Example */}

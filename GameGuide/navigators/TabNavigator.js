@@ -1,10 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../features/home/HomeScreen';
-import StackNavigator from './StackNavigator';
-import mobile from '../features/tab/mobile';
-import pc from '../features/tab/pc';
-import console from '../features/tab/console';
+import PcStack from './PcStack';
+import MobileStack from './MobileStack';
+import ConsoleStack from './ConsoleStack';
 import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -26,9 +25,9 @@ export default function TabNavigator() {
         textTransform: 'uppercase',},
     })}>
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Pc" component={pc} />
-      <Tab.Screen name="Mobile" component={mobile} />
-      <Tab.Screen name="Console" component={console} />
+      <Tab.Screen name="Pc" component={PcStack} />
+      <Tab.Screen name="Mobile" component={MobileStack} />
+      <Tab.Screen name="Console" component={ConsoleStack} />
     </Tab.Navigator>
   );
 }
