@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, Image, ScrollView, ImageBackground } from 'react-native';
+import { View, Text, Image, ScrollView, ImageBackground } from 'react-native';
 import styles from "../../style";
 
-export default function Details({ route, navigation }) {
+export default function Details({ route }) {
     const { itemName, synopsis, image, image2, descripsion } = route.params;
 
     return (

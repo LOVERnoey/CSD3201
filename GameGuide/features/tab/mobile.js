@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../style";
-import { View, Text, StyleSheet, ImageBackground, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, Image, ScrollView, TouchableOpacity } from "react-native";
 export default function Mobile({ navigation }) {
   return (
     <ImageBackground source={require('../../assets/background.jpg')} style={styles.background}>
