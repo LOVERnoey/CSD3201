@@ -16,7 +16,9 @@ const LoginScreen = ({ navigation }) => {
             try {
                 const user = await AsyncStorage.getItem("user");
                 if (user) {
-                    navigation.replace("Main"); // ถ้าล็อกอินอยู่แล้วให้ไปหน้าหลัก
+                    const parsedUser = JSON.parse(user);
+                    const initialRoute = parsedUser.role === "Admin" ? "Dashboard" : "Main";
+                    navigation.replace(initialRoute); // ถ้าล็อกอินอยู่แล้วให้ไปหน้าหลัก
                 }
             } catch (error) {
                 console.error("เกิดข้อผิดพลาดในการตรวจสอบสถานะล็อกอิน:", error);
@@ -31,16 +33,18 @@ const LoginScreen = ({ navigation }) => {
             Alert.alert("⚠️ ข้อผิดพลาด", "กรุณากรอกอีเมลและรหัสผ่าน");
             return;
         }
-    
+
         try {
             const response = await axios.post(API_URL, { email, password });
-    
+
             if (response.data.status === "success") {
                 await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
                 console.log("User in Login: ", response.data.user);
-                
+
                 Alert.alert("✅ เข้าสู่ระบบสำเร็จ", `ยินดีต้อนรับ ${response.data.user.username}`);
-                navigation.replace("Main"); // นำทางไปหน้าหลัก
+                
+                const initialRoute = response.data.user.role === "Admin" ? "Dashboard" : "Main";
+                navigation.replace(initialRoute); // นำทางไปหน้าหลัก
             } else {
                 Alert.alert("❌ ข้อผิดพลาด", response.data.message || "เข้าสู่ระบบไม่สำเร็จ");
             }
@@ -49,7 +53,6 @@ const LoginScreen = ({ navigation }) => {
             Alert.alert("❌ ข้อผิดพลาด", "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้");
         }
     };
-    
 
     return (
         <View style={styles.container}>
