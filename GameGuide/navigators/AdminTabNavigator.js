@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import DashboardScreen from '../features/DashboardScreen';
-import ProfileStack from './ProfileStack';
+import UserManagement from '../features/UserManagement';
 import { Ionicons } from '@expo/vector-icons';
+import AddGame from '../features/AddGame';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -11,7 +12,7 @@ export default function TabNavigator() {
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName = route.name === 'Dashboard' ? (focused ? 'home' : 'home-outline') : 
-                       route.name === 'Profile' ? (focused ? 'person' : 'person-outline') :
+                       route.name === 'UserManagement' ? (focused ? 'person' : 'person-outline') :
                        (focused ? 'settings' : 'settings-outline');
         return <Ionicons name={iconName} size={size} color={color} />;
       },
@@ -20,8 +21,8 @@ export default function TabNavigator() {
       headerTintColor: '#ffffff', headerTitleAlign: 'center',headerTitleStyle: { fontSize: 34, fontWeight: 'bold', // ทำให้ตัวหนา
         textTransform: 'uppercase',},
     })}>
-      <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      <Tab.Screen name="Profile" component={ProfileStack} />
+      <Tab.Screen name="Dashboard" component={AddGame} />
+      <Tab.Screen name="UserManagement" component={UserManagement} />
     </Tab.Navigator>
   );
 }

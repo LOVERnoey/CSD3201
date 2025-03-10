@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from "../../style";
 import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
-import Header from '../../components/Header';
 
 export default function HomeScreen({ }) {
   return (
     <ImageBackground source={require('../../assets/background.jpg')} style={styles.background}>
-      <Header title="Home" />
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.title}>แอปพลิเคชันแนะนำเกมน่าเล่น</Text>
