@@ -1,10 +1,12 @@
 import React from 'react';
 import styles from "../../style";
 import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
+import Header from '../../components/Header';
 
-export default function HomeScreen() {
+export default function HomeScreen({ }) {
   return (
     <ImageBackground source={require('../../assets/background.jpg')} style={styles.background}>
+      <Header title="Home" />
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.title}>แอปพลิเคชันแนะนำเกมน่าเล่น</Text>
@@ -12,7 +14,7 @@ export default function HomeScreen() {
           <View style={styles.box}>
             <View>
               <Text style={styles.text}>
-                {"\t\t"}แอปพลิเคชัน GameGuide ถูกพัฒนาขึ้นเพื่อช่วยให้ผู้เล่นเกมสามารถค้นหาและเลือกเกมที่น่าสนใจตามแพลตฟอร์ที่ตนเองใช้งาน (PC, Mobile, Console)โดยการแนะนำเกมใหม่
+                {"\t\t"}แอปพลิเคชัน GameGuide ถูกพัฒนาขึ้นเพื่อช่วยให้ผู้เล่นเกมสามารถค้นห[...]
                 หรือเกมที่น่าจับตามองในปี 2025 แอปนี้จะช่วยประหยัดเวลา
                 ในการค้นหาข้อมูลเกมพร้อมให้รายละเอียดเชิงลึกเกี่ยวกับ
                 แต่ละเกมการแนะนำเกมจะทำให้ผู้เล่นสามารถตัดสินใจเลือกเกม
@@ -50,6 +52,6 @@ export default function HomeScreen() {
           <Text style={styles.gameNameHome}>Astro Bot</Text>
         </View>
       </ScrollView>
-    </ImageBackground >
+    </ImageBackground>
   );
 }

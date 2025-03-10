@@ -2,8 +2,8 @@
 // db.php - เชอื่ มตอ่ ฐานขอ้มลู MySQL ด ้วย PDO
 $host = 'localhost'; // ชอื่ เซริฟ์ เวอรข์ องฐานขอ้มลู
 $dbname = 'game_guide'; // ชอื่ ฐานขอ้มลู
-$username = 'ebookshop'; // ชอื่ ผใู้ชฐ้านขอ้มลู
-$password = 'password'; // รหัสผ่านฐานข ้อมูล
+$username = 'game_guide'; // ชอื่ ผใู้ชฐ้านขอ้มลู
+$password = '12345678'; // รหัสผ่านฐานข ้อมูล
 $charset = 'utf8mb4'; // รองรับภาษาไทยและอักขระพิเศษ
 $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
 $options = [
