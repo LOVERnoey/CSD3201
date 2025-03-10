@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Mobile from '../features/tab/Mobile';
+import Mobile from '../features/tab/mobile';
 import Details from '../features/home/Details';
 
 const Stack = createStackNavigator();

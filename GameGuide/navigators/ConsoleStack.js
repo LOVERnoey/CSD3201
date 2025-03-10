@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Console from '../features/tab/Console';
+import Console from '../features/tab/console';
 import Details from '../features/home/Details';
 
 const Stack = createStackNavigator();

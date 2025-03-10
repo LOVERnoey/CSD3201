@@ -1,22 +1,23 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Pc from '../features/tab/pc';
-import Details from '../features/home/Details';
+import HomeScreen from '../features/LoginScreen';
+import LoginScreen from '../features/RegisterScreen';
+import RegisterScreen from '../features/RegisterScreen';
 
 const Stack = createStackNavigator();
 
-export default function PcStack() {
+export default function ConsoleStack() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="Pc"
-                component={Pc}
+            <Stack.Screen name="Rigister"
+                component={RegisterScreen}
                 options={{
                     headerTransparent: true,
                     headerTitle: '',
                 }} />
             <Stack.Screen
-                name="Details"
-                component={Details}
+                name="Login"
+                component={LoginScreen}
                 options={{
                     headerTransparent: true, // ทำให้ Header โปร่งใส
                     headerTitle: '',
