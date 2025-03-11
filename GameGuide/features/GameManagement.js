@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 
 const API_URL = "http://192.168.1.33/game_guide/gamemanagement/game.php";
+const IMAGE_BASE_URL = "http://192.168.1.33/game_guide/image/";
 
 const GameManagement = () => {
     const navigation = useNavigation();
@@ -42,10 +43,26 @@ const GameManagement = () => {
     const openEditModal = (game) => {
         setSelectedGame(game);
         setGameName(game.game_name);
-        setGameFont(game.game_font);
+        setGameFont(game.game_description_font);
         setGameDescription1(game.game_description_details_1);
         setGameDescription2(game.game_description_details_2);
         setModalVisible(true);
+    };
+
+    const updateGame = async () => {
+        try {
+            await axios.put(API_URL, {
+                game_id: selectedGame.game_id,
+                game_name: gameName,
+                game_description_font: gameFont,
+                game_description_details_1: gameDescription1,
+                game_description_details_2: gameDescription2,
+            });
+            fetchGames();
+            setModalVisible(false);
+        } catch (error) {
+            console.error("Error updating game:", error);
+        }
     };
 
     return (
@@ -57,8 +74,6 @@ const GameManagement = () => {
             <View style={styles.tableHeader}>
                 <Text style={[styles.headerCell, { flex: 2 }]}>Game</Text>
                 <Text style={styles.headerCell}>Font</Text>
-                <Text style={[styles.headerCell, { flex: 3 }]}>Description 1</Text>
-                <Text style={[styles.headerCell, { flex: 3 }]}>Description 2</Text>
                 <Text style={styles.headerCell}>Actions</Text>
             </View>
 
@@ -69,12 +84,10 @@ const GameManagement = () => {
                 renderItem={({ item }) => (
                     <View style={styles.tableRow}>
                         <View style={[styles.cell, { flex: 2, flexDirection: "row", alignItems: "center" }]}>
-                            <Image source={{ uri: item.game_profile_pic }} style={styles.gameImage} />
+                            <Image source={{ uri: IMAGE_BASE_URL + item.game_profile_pic }} style={styles.gameImage} />
                             <Text style={styles.gameTitle}>{item.game_name}</Text>
                         </View>
-                        <Text style={styles.cell}>{item.game_font}</Text>
-                        <Text style={[styles.cell, { flex: 3 }]}>{item.game_description_details_1}</Text>
-                        <Text style={[styles.cell, { flex: 3 }]}>{item.game_description_details_2}</Text>
+                        <Text style={styles.cell}>{item.game_description_font}</Text>
                         <View style={styles.cell}>
                             <TouchableOpacity onPress={() => openEditModal(item)} style={styles.editButton}>
                                 <Text style={styles.buttonText}>Edit</Text>
@@ -91,12 +104,14 @@ const GameManagement = () => {
             <Modal visible={modalVisible} transparent animationType="slide">
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <TextInput value={gameName} onChangeText={setGameName} placeholder="Game Name" style={styles.input} />
-                        <TextInput value={gameFont} onChangeText={setGameFont} placeholder="Game Font" style={styles.input} />
-                        <TextInput value={gameDescription1} onChangeText={setGameDescription1} placeholder="Description 1" style={styles.input} />
-                        <TextInput value={gameDescription2} onChangeText={setGameDescription2} placeholder="Description 2" style={styles.input} />
-                        <Button title="Save Changes" onPress={() => setModalVisible(false)} />
-                        <Button title="Cancel" onPress={() => setModalVisible(false)} color="red" />
+                        <ScrollView>
+                            <TextInput value={gameName} onChangeText={setGameName} placeholder="Game Name" style={styles.input} />
+                            <TextInput value={gameFont} onChangeText={setGameFont} placeholder="Game Font" style={styles.input} />
+                            <TextInput value={gameDescription1} onChangeText={setGameDescription1} placeholder="Description 1" style={styles.input} />
+                            <TextInput value={gameDescription2} onChangeText={setGameDescription2} placeholder="Description 2" style={styles.input} />
+                            <Button title="Save Changes" onPress={updateGame} />
+                            <Button title="Cancel" onPress={() => setModalVisible(false)} color="red" />
+                        </ScrollView>
                     </View>
                 </View>
             </Modal>
