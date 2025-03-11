@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Modal, StyleSheet } from 'react-native';
-import { Picker } from "@react-native-picker/picker";
+import { 
+    View, Text, TouchableOpacity, Alert, TextInput, Modal, StyleSheet, ScrollView 
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { DataTable } from 'react-native-paper';
 import axios from 'axios';
 
 const API_URL = "http://192.168.1.33/game_guide/api/usermanagement/users.php";
@@ -8,8 +12,9 @@ const API_URL = "http://192.168.1.33/game_guide/api/usermanagement/users.php";
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [adminName, setAdminName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation();
 
     useEffect(() => {
         fetchUsers();
@@ -18,11 +23,27 @@ const UserManagement = () => {
     const fetchUsers = async () => {
         try {
             const response = await axios.get(API_URL);
-            setUsers(response.data);
+            setUsers(response.data.users);
         } catch (error) {
-            console.error(error);
+            console.error("Error fetching users:", error);
         }
     };
+
+    const banUser = async (user_id) => {
+        try {
+            const response = await axios.post("http://192.168.1.33/game_guide/api/usermanagement/ban.php", { user_id });
+    
+            if (response.data.status === "success") {
+                Alert.alert("Success", response.data.message);
+                fetchUsers(); // Refresh the user list
+            } else {
+                Alert.alert("Error", response.data.message);
+            }
+        } catch (error) {
+            console.error("Error banning user:", error);
+        }
+    };
+    
 
     const handleLogout = async () => {
         await AsyncStorage.clear();
@@ -35,72 +56,86 @@ const UserManagement = () => {
     };
 
     const addAdmin = async () => {
-        try {
-            await axios.post(API_URL, { username: adminName, password, role: 'Admin' });
-            fetchUsers();
-            setAdminName('');
-            setPassword('');
-            setModalVisible(false);
-        } catch (error) {
-            console.error(error);
+        if (!email || !password) {
+            Alert.alert("Error", "Please enter both email and password");
+            return;
         }
-    };
 
-    const banUser = async (id) => {
         try {
-            await axios.post(`${API_URL}/ban.php`, { id });
-            fetchUsers();
+            const response = await axios.post(API_URL, { email, password, role: "Admin" });
+
+            if (response.data.status === "success") {
+                Alert.alert("Success", "Admin added successfully!");
+                fetchUsers();
+                setEmail('');
+                setPassword('');
+                setModalVisible(false);
+            } else {
+                Alert.alert("Error", response.data.message);
+            }
         } catch (error) {
-            console.error(error);
+            console.error("Error adding admin:", error);
         }
     };
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <Text style={styles.title}>DASHBOARD</Text>
-                <Text style={styles.subtitle}>User Management</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>User Management</Text>
 
-                <FlatList
-                    data={users}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={styles.userRow}>
-                            <Text>{item.id}</Text>
-                            <Text>{item.username}</Text>
-                            <Text>{item.role}</Text>
-                            <TouchableOpacity style={styles.banButton} onPress={() => banUser(item.id)}>
-                                <Text style={styles.buttonText}>BAN</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
+            <ScrollView horizontal>
+                <DataTable style={styles.table}>
+                    <DataTable.Header style={styles.header}>
+                        <DataTable.Title>ID</DataTable.Title>
+                        <DataTable.Title>Email</DataTable.Title>
+                        <DataTable.Title>Role</DataTable.Title>
+                        <DataTable.Title>Created At</DataTable.Title>
+                        <DataTable.Title>Actions</DataTable.Title>
+                    </DataTable.Header>
+
+                    {users.map((user) => (
+                        <DataTable.Row key={user.user_id}>
+                            <DataTable.Cell>{user.user_id}</DataTable.Cell>
+                            <DataTable.Cell>{user.email}</DataTable.Cell>
+                            <DataTable.Cell>{user.role}</DataTable.Cell>
+                            <DataTable.Cell>{user.created_at}</DataTable.Cell>
+                            <DataTable.Cell>
+                                <TouchableOpacity style={styles.banButton} onPress={() => banUser(user.user_id)}>
+                                    <Text style={styles.banText}>BAN</Text>
+                                </TouchableOpacity>
+                            </DataTable.Cell>
+                        </DataTable.Row>
+                    ))}
+                </DataTable>
+            </ScrollView>
+
+            {/* Logout and Add Admin Buttons */}
+            <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                    <Text style={styles.buttonText}>Logout</Text>
+                </TouchableOpacity>
 
                 <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
                     <Text style={styles.buttonText}>Add Admin</Text>
                 </TouchableOpacity>
-
-                {/* Modal for Adding Admin */}
-                <Modal visible={modalVisible} transparent animationType="slide">
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalContent}>
-                            <Text style={styles.subtitle}>Add Admin</Text>
-                            <TextInput placeholder="Admin Name" value={adminName} onChangeText={setAdminName} style={styles.input} />
-                            <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
-                            <TouchableOpacity style={styles.addButton} onPress={addAdmin}>
-                                <Text style={styles.buttonText}>Add Admin</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setModalVisible(false)}>
-                                <Text style={styles.cancelText}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-                                <Text style={styles.buttonText}>Logout</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal>
             </View>
-        </ScrollView>
+
+            {/* Modal for Adding Admin */}
+            <Modal visible={modalVisible} transparent animationType="slide">
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.subtitle}>Add Admin</Text>
+                        <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
+                        <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
+                        <TouchableOpacity style={styles.addButton} onPress={addAdmin}>
+                            <Text style={styles.buttonText}>Add Admin</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setModalVisible(false)}>
+                            <Text style={styles.cancelText}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+        </View>
     );
 };
 
@@ -108,48 +143,57 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
         padding: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: 'black',
+        textAlign: 'center',
         marginBottom: 20,
     },
-    subtitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
+    table: {
+        width: 800,
     },
-    userRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 10,
-        borderBottomWidth: 1,
+    header: {
+        backgroundColor: '#ddd',
+    },
+    column: {
+        flex: 1,
+        justifyContent: 'center',
     },
     banButton: {
         backgroundColor: 'red',
-        padding: 10,
+        padding: 8,
+        borderRadius: 5,
+    },
+    banText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 20,
+    },
+    logoutButton: {
+        backgroundColor: 'gray',
+        padding: 15,
+        borderRadius: 5,
+        flex: 1,
+        marginRight: 10,
+        alignItems: 'center',
     },
     addButton: {
         backgroundColor: 'purple',
         padding: 15,
         borderRadius: 5,
-        marginTop: 20,
+        flex: 1,
+        alignItems: 'center',
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        borderRadius: 5,
-        width: '100%',
-        marginBottom: 10,
     },
     modalContainer: {
         flex: 1,
@@ -163,6 +207,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: '80%',
         alignItems: 'center',
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 10,
+        borderRadius: 5,
+        width: '100%',
+        marginBottom: 10,
     },
     cancelText: {
         marginTop: 10,

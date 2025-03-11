@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, Button, Alert, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 
@@ -44,7 +44,7 @@ const AddGame = ({ navigation }) => {
             Alert.alert("ข้อผิดพลาด", "เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
         }
     };
-    
+
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -67,6 +67,10 @@ const AddGame = ({ navigation }) => {
 
                 <Button title="เพิ่มเกม" onPress={handleAddGame} />
             </View>
+
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <Text style={styles.buttonText}>⬅ Back</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };

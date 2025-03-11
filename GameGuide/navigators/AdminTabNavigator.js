@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UserManagement from '../features/UserManagement';
 import { Ionicons } from '@expo/vector-icons';
 import AddGame from '../features/AddGame';
+import GameManagement from '../features/GameManagement';
 
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +22,7 @@ export default function TabNavigator() {
       headerTintColor: '#ffffff', headerTitleAlign: 'center',headerTitleStyle: { fontSize: 34, fontWeight: 'bold', // ทำให้ตัวหนา
         textTransform: 'uppercase',},
     })}>
-      <Tab.Screen name="Dashboard" component={AddGame} />
+      <Tab.Screen name="Dashboard" component={GameManagement} />
       <Tab.Screen name="UserManagement" component={UserManagement} />
     </Tab.Navigator>
   );
