@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2025 at 03:49 PM
+-- Generation Time: Mar 12, 2025 at 04:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,20 @@ CREATE TABLE `comment` (
   `time_stamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`comment_id`, `user_id`, `game_id`, `comment_text`, `time_stamp`) VALUES
+(1, NULL, 9, 'sogood', '2025-03-12 12:11:57'),
+(2, 1, 9, 'd mak', '2025-03-12 12:31:34'),
+(3, 1, 9, 'Is ok', '2025-03-12 12:36:50'),
+(4, 1, 9, 'เกมกระจอกๆ ให้หมาเล่นซะ', '2025-03-12 12:37:16'),
+(6, 1, 9, 'dddhuilda', '2025-03-12 12:46:41'),
+(7, 1, 2, '6666', '2025-03-12 15:04:25'),
+(8, 1, 2, 'd', '2025-03-12 15:15:44'),
+(9, 1, 2, 'kuy game nha hee', '2025-03-12 15:16:46');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +59,18 @@ CREATE TABLE `favorite_game` (
   `user_id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `favorite_game`
+--
+
+INSERT INTO `favorite_game` (`user_id`, `game_id`) VALUES
+(1, 2),
+(1, 9),
+(1, 10),
+(1, 12),
+(1, 16),
+(6, 9);
 
 -- --------------------------------------------------------
 
@@ -110,7 +136,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `username`, `password_hash`, `email`, `role`, `created_at`) VALUES
 (1, 'bass1', '$2y$10$x6Q2J8cFppeQzKIY19LoJ.EQQsj7bvSCcJv8L0ivvqHGVLPJ0pcZe', 'bass@gmail.com', 'User', '2025-03-10 10:14:28'),
-(2, 'b', '$2y$10$ggTwyZg9rdUOZZqsCeiQ7e9UeXt2yGIqVEdm5MjmXOY32i9POyqFq', '1@gmail.com', 'Admin', '2025-03-10 11:52:28');
+(2, 'b', '$2y$10$ggTwyZg9rdUOZZqsCeiQ7e9UeXt2yGIqVEdm5MjmXOY32i9POyqFq', '1@gmail.com', 'Admin', '2025-03-10 11:52:28'),
+(6, '2', '$2y$10$a7tv1vDSPbB2nDiuNV8ClOh.zQWce..u78xp7mJQ9YCWJwrgvRJRG', '2@gmail.com', 'User', '2025-03-12 14:21:29');
 
 --
 -- Indexes for dumped tables
@@ -151,7 +178,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `game`
@@ -163,7 +190,7 @@ ALTER TABLE `game`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

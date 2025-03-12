@@ -9,20 +9,38 @@ const Profile = ({ navigation }) => {
         picture: "",
         name: "",
     });
+    const [userId, setUserId] = useState(null);
 
-    // Fetch user profile
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await axios.get("https://192.168.1.33/api/profile");
-                setProfile(response.data);
-            } catch (error) {
-                console.error("Error fetching profile:", error);
-            }
-        };
-
-        fetchProfile();
+        loadUserData();
     }, []);
+
+    useEffect(() => {
+        if (userId) {
+            fetchProfile();
+        }
+    }, [userId]);
+
+    const loadUserData = async () => {
+        try {
+            const user = await AsyncStorage.getItem("user");
+            if (user) {
+                const parsedUser = JSON.parse(user);
+                setUserId(parsedUser.user_id); // Set user_id from parsedUser
+            }
+        } catch (error) {
+            console.error("Error loading user data:", error);
+        }
+    };
+
+    const fetchProfile = async () => {
+        try {
+            const response = await axios.get(`https://192.168.1.33/api/profile?user_id=${userId}`);
+            setProfile(response.data);
+        } catch (error) {
+            console.error("Error fetching profile:", error);
+        }
+    };
 
     // Handle profile input change
     const handleChange = (field, value) => {
@@ -32,7 +50,7 @@ const Profile = ({ navigation }) => {
     // Save edited profile
     const handleSave = async () => {
         try {
-            const response = await axios.put("https://192.168.1.33/api/saveProfile", profile);
+            const response = await axios.put("https://192.168.1.33/api/saveProfile", { user_id: userId, ...profile });
             if (response.status === 200) {
                 Alert.alert("Success", "Profile updated successfully!");
                 setIsEditing(false);
@@ -54,17 +72,6 @@ const Profile = ({ navigation }) => {
             index: 0,
             routes: [{ name: "Login" }],
         });
-        // ไม่ให้ใช้ :)
-        // try {
-        //     const user = await AsyncStorage.getItem("user");
-        //     console.log(user);
-
-        //     await axios.post("https://192.168.1.33/api/auth/logout", { user });
-
-        // } catch (error) {
-        //     console.error("Failed to log out:", error);
-        //     Alert.alert("Error", "Failed to log out");
-        // }
     };
 
     return (
@@ -101,6 +108,12 @@ const Profile = ({ navigation }) => {
                     <Text style={styles.buttonText}>Logout</Text>
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity
+                style={styles.favoriteButton}
+                onPress={() => navigation.navigate('Favorite', { userId })}
+            >
+                <Text style={styles.buttonText}>Go to Favorites</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -164,4 +177,11 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
     },
+    favoriteButton: {
+        backgroundColor: '#ff6347', // Tomato color
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 20
+    }
 });

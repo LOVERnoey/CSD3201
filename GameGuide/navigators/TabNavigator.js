@@ -4,7 +4,7 @@ import HomeScreen from '../features/home/HomeScreen';
 import PcStack from './PcStack';
 import MobileStack from './MobileStack';
 import ConsoleStack from './ConsoleStack';
-import ProfileStack from './ProfileStack';
+import FavoriteStack from './FavoriteStack';
 import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -17,7 +17,7 @@ export default function TabNavigator() {
                        route.name === 'Pc' ? (focused ? 'desktop' : 'desktop-outline') : 
                        route.name === 'Mobile' ? (focused ? 'phone-portrait' : 'phone-portrait-outline') : 
                        route.name === 'Console' ? (focused ? 'game-controller' : 'game-controller-outline') : 
-                       route.name === 'Profile' ? (focused ? 'person' : 'person-outline') :
+                       route.name === 'Favorites' ? (focused ? 'heart' : 'heart-outline') :
                        (focused ? 'settings' : 'settings-outline');
         return <Ionicons name={iconName} size={size} color={color} />;
       },
@@ -30,7 +30,7 @@ export default function TabNavigator() {
       <Tab.Screen name="Pc" component={PcStack} />
       <Tab.Screen name="Mobile" component={MobileStack} />
       <Tab.Screen name="Console" component={ConsoleStack} />
-      <Tab.Screen name="Profile" component={ProfileStack} />
+      <Tab.Screen name="Favorites" component={FavoriteStack} />
     </Tab.Navigator>
   );
 }

@@ -1,11 +1,26 @@
 import React from 'react';
 import styles from "../../style";
-import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function HomeScreen({ }) {
+
+export default function HomeScreen({ navigation }) {
+  const handleLogout = async () => {
+    await AsyncStorage.clear();
+    Alert.alert("Success", "Logged out successfully");
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
+  };
+
   return (
     <ImageBackground source={require('../../assets/background.jpg')} style={styles.background}>
-      <ScrollView>
+      <ScrollView style={{ marginHorizontal: 1 }}>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
         <View style={styles.container}>
           <Text style={styles.title}>แอปพลิเคชันแนะนำเกมน่าเล่น</Text>
           <Text style={styles.title}>GameGuide</Text>

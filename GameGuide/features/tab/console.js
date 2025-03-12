@@ -2,17 +2,40 @@ import React, { useEffect, useState } from "react";
 import styles from "../../style";
 import { View, Text, ImageBackground, Image, ScrollView, TouchableOpacity } from "react-native";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_URL = "http://192.168.1.33/game_guide/gamemanagement/game.php";
 const IMAGE_BASE_URL = "http://192.168.1.33/game_guide/image/";
 
 export default function Mobile({ navigation }) {
   const [games, setGames] = useState([]);
+    const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     fetchGames();
   }, []);
+  useEffect(() => {
+    loadUserData();
+  }, []);
 
+  useEffect(() => {
+    if (userId) {
+      // If you need to fetch orders or other data related to the user, do it here
+      // fetchOrders();
+    }
+  }, [userId]);
+
+  const loadUserData = async () => {
+    try {
+      const user = await AsyncStorage.getItem("user");
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        setUserId(parsedUser.user_id); // Set user_id from parsedUser
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error);
+    }
+  };
   const fetchGames = async () => {
     try {
       const response = await axios.get(API_URL);
@@ -48,6 +71,8 @@ export default function Mobile({ navigation }) {
                         descripsion: game.game_description_details_2,
                         image: { uri: IMAGE_BASE_URL + game.game_profile_pic },
                         image2: { uri: IMAGE_BASE_URL + game.game_pic_details_2 },
+                        game_id: game.game_id,
+                        user_id: userId // Pass userId to Details
                       })
                     }
                   >
