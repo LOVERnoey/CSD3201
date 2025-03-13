@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     /* Buttons */
     editButton: { backgroundColor: "blue", padding: 5, borderRadius: 5, marginBottom: 5 },
     deleteButton: { backgroundColor: "red", padding: 5, borderRadius: 5 },
-    addButton: { backgroundColor: "green", padding: 10, marginTop: 20, borderRadius: 5 },
+    addButton: { backgroundColor: "#63009E", padding: 10, marginTop: 20, borderRadius: 5 },
 
     /* Modal */
     modalContainer: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" },

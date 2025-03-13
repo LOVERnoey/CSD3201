@@ -54,9 +54,9 @@ export default function Pc({ navigation }) {
     <ImageBackground source={require('../../assets/background.jpg')} style={styles.background}>
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.rowContainerMode}>
+          <View style={styles.pcRowContainerMode}>
+          <Text style={styles.redText}>PC</Text>
             <Text style={styles.gameText}>Game </Text>
-            <Text style={styles.redText}>PC</Text>
           </View>
           {games.map((game, index) => (
             <View key={index}>

@@ -55,8 +55,8 @@ export default function Mobile({ navigation }) {
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.rowContainerMode}>
+          <Text style={styles.redText}>Mobile</Text>
             <Text style={styles.gameText}>Game </Text>
-            <Text style={styles.redText}>Mobile</Text>
           </View>
           {games.map((game, index) => (
             <View key={index}>

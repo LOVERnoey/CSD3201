@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import styles from '../styles/RegisterScreenStyles'; // นำเข้า Styles
+import styles from '../styles/RegisterScreenStyles';
 
-const API_URL = "http://192.168.1.33/game_guide/api/auth/register.php"; // เปลี่ยนเป็น URL จริงของคุณ
+const API_URL = "http://192.168.1.33/game_guide/api/auth/register.php"; // เปลี่ยน URL ตามจริง
 
 const RegisterScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // ฟังก์ชันส่งข้อมูลไปยัง API เพื่อลงทะเบียน
     const handleRegister = async () => {
         if (!username || !email || !password) {
-            Alert.alert("เกิดข้อผิดพลาด", "กรุณากรอกข้อมูลให้ครบถ้วน");
+            Alert.alert("Error", "Please fill in all fields");
             return;
         }
 
@@ -22,46 +21,52 @@ const RegisterScreen = ({ navigation }) => {
             console.log(response.data);
 
             if (response.data.status === "success") {
-                Alert.alert("ลงทะเบียนสำเร็จ", "คุณสามารถเข้าสู่ระบบได้แล้ว");
-                navigation.navigate('Login'); // นำทางไปหน้า Login
+                Alert.alert("Registration Successful", "You can now login");
+                navigation.navigate('Login');
             } else {
-                Alert.alert("เกิดข้อผิดพลาด", response.data.message);
+                Alert.alert("Error", response.data.message);
             }
         } catch (error) {
             console.error("Registration Error:", error);
-            Alert.alert("เกิดข้อผิดพลาด", "ไม่สามารถลงทะเบียนได้");
+            Alert.alert("Error", "Unable to register. Please try again.");
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>📋 สมัครสมาชิก</Text>
+            <Text style={styles.title}>SignUp</Text>
+            <Text style={styles.subtitle}>Enter Username and Email to send one time Password</Text>
 
             <TextInput
                 style={styles.input}
-                placeholder="ชื่อผู้ใช้"
+                placeholder="User Name"
                 value={username}
                 onChangeText={setUsername}
+                placeholderTextColor="#999"
             />
             <TextInput
                 style={styles.input}
-                placeholder="อีเมล"
+                placeholder="Email"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
+                placeholderTextColor="#999"
             />
             <TextInput
                 style={styles.input}
-                placeholder="รหัสผ่าน"
+                placeholder="Password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
+                placeholderTextColor="#999"
             />
 
-            <Button title="✍️ ลงทะเบียน" onPress={handleRegister} />
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.linkText}>🔑 มีบัญชีแล้ว? เข้าสู่ระบบ</Text>
+                <Text style={styles.linkText}>Already have an account? Login</Text>
             </TouchableOpacity>
         </View>
     );

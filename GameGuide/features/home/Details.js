@@ -76,7 +76,7 @@ export default function Details({ route }) {
             {/* Title & Favorite Button */}
             <View style={styles.titleContainer}>
                 <Text style={styles.nameGameDetails}>{itemName}</Text>
-                <TouchableOpacity onPress={toggleFavorite}>
+                <TouchableOpacity onPress={toggleFavorite} style={styles.heart}>
                     <FontAwesome name="heart" size={30} color={isFavorite ? "red" : "gray"} />
                 </TouchableOpacity>
             </View>
@@ -124,11 +124,15 @@ export default function Details({ route }) {
 }
 
 const extraStyles = {
+    heart: {
+        paddingRight : 50,
+        paddingTop: 40
+    },
     titleContainer: { 
         flexDirection: "row", 
-        justifyContent: "space-between", 
+        justifyContent: "", 
         alignItems: "center", 
-        paddingHorizontal: 20
+        paddingHorizontal: 30
     },
     addCommentContainer: { 
         padding: 15, 

@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
         color: "red",
         fontFamily: "Roboto",
         fontWeight: "bold",
+        paddingRight: 7
     },
     gameNameHome: {//Text name of game 
         fontSize: 28,
@@ -70,12 +71,12 @@ const styles = StyleSheet.create({
     //name mobile pc console
     rowContainerMode: {
         flexDirection: "row",
-        paddingRight: 180,
+        paddingRight: 130,
         paddingTop: 10,
     },
     //name game
     gameNameMode: {
-        fontSize: 28,
+        fontSize: 22,
         color: "#fff",
         fontFamily: "Roboto",
         width: "100%",
@@ -87,13 +88,13 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     nameGameDetails: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: "bold",
         color: "#fff",
         fontFamily: "Roboto",
         paddingTop: 40,
-        width: "100%",
-        paddingLeft: 40,
+        width: "80%",
+        paddingLeft: 10,
     },
     logoutButton: {
         flex: 1,
@@ -111,7 +112,12 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 24,
         fontWeight: 700,
-    }
+    },
+    pcRowContainerMode: {
+        flexDirection: "row",
+        paddingRight: 210,
+        paddingTop: 10,
+    },
 
 });
 

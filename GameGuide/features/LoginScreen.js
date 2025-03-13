@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../styles/LoginScreenStyles';
@@ -10,7 +10,6 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // ตรวจสอบสถานะการล็อกอิน
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
@@ -18,19 +17,18 @@ const LoginScreen = ({ navigation }) => {
                 if (user) {
                     const parsedUser = JSON.parse(user);
                     const initialRoute = parsedUser.role === "Admin" ? "Dashboard" : "Main";
-                    navigation.replace(initialRoute); // ถ้าล็อกอินอยู่แล้วให้ไปหน้าหลัก
+                    navigation.replace(initialRoute);
                 }
             } catch (error) {
-                console.error("เกิดข้อผิดพลาดในการตรวจสอบสถานะล็อกอิน:", error);
+                console.error("Error checking login status:", error);
             }
         };
         checkLoginStatus();
     }, []);
 
-    // ฟังก์ชันเข้าสู่ระบบ
     const handleLogin = async () => {
         if (!email.trim() || !password.trim()) {
-            Alert.alert("⚠️ ข้อผิดพลาด", "กรุณากรอกอีเมลและรหัสผ่าน");
+            Alert.alert("Error", "Please enter both email and password");
             return;
         }
 
@@ -41,43 +39,52 @@ const LoginScreen = ({ navigation }) => {
                 await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
                 console.log("User in Login: ", response.data.user);
 
-                Alert.alert("✅ เข้าสู่ระบบสำเร็จ", `ยินดีต้อนรับ ${response.data.user.username}`);
+                Alert.alert("Login Successful", `Welcome ${response.data.user.username}`);
                 
                 const initialRoute = response.data.user.role === "Admin" ? "Dashboard" : "Main";
-                navigation.replace(initialRoute); // นำทางไปหน้าหลัก
+                navigation.replace(initialRoute);
             } else {
-                Alert.alert("❌ ข้อผิดพลาด", response.data.message || "เข้าสู่ระบบไม่สำเร็จ");
+                Alert.alert("Error", response.data.message || "Login failed");
             }
         } catch (error) {
-            console.error("เกิดข้อผิดพลาดในการเข้าสู่ระบบ:", error);
-            Alert.alert("❌ ข้อผิดพลาด", "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้");
+            console.error("Login error:", error);
+            Alert.alert("Error", "Unable to connect to the server");
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>🔑 เข้าสู่ระบบ</Text>
+            <Text style={styles.title}>Login</Text>
+            <Text style={styles.subtitle}>Enter Email to send one time Password</Text>
 
-            <TextInput
-                style={styles.input}
-                placeholder="📧 อีเมล"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="🔒 รหัสผ่าน"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-            />
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    placeholderTextColor="#999"
+                />
+            </View>
 
-            <Button title="🚀 เข้าสู่ระบบ" onPress={handleLogin} />
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    placeholderTextColor="#999"
+                />
+                <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+                    <Text style={styles.signUpLink}>SignUp ?</Text>
+                </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-                <Text style={styles.linkText}>✍️ ยังไม่มีบัญชี? สมัครสมาชิก</Text>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
         </View>
     );
