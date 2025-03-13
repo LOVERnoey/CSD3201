@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    View, Text, TouchableOpacity, Alert, TextInput, Modal, StyleSheet, ScrollView 
+import {
+    View, Text, TouchableOpacity, Alert, TextInput, Modal, StyleSheet, ScrollView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -32,7 +32,7 @@ const UserManagement = () => {
     const banUser = async (user_id) => {
         try {
             const response = await axios.post("http://192.168.1.33/game_guide/api/usermanagement/ban.php", { user_id });
-    
+
             if (response.data.status === "success") {
                 Alert.alert("Success", response.data.message);
                 fetchUsers(); // Refresh the user list
@@ -43,7 +43,7 @@ const UserManagement = () => {
             console.error("Error banning user:", error);
         }
     };
-    
+
 
     const handleLogout = async () => {
         await AsyncStorage.clear();
@@ -126,9 +126,10 @@ const UserManagement = () => {
                         <Text style={styles.subtitle}>Add Admin</Text>
                         <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
                         <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
-                        <TouchableOpacity style={styles.addButton} onPress={addAdmin}>
-                            <Text style={styles.buttonText}>Add Admin</Text>
+                        <TouchableOpacity style={styles.modalAddButton} onPress={addAdmin}>
+                            <Text style={styles.modalButtonText}>Add Admin</Text>
                         </TouchableOpacity>
+
                         <TouchableOpacity onPress={() => setModalVisible(false)}>
                             <Text style={styles.cancelText}>Cancel</Text>
                         </TouchableOpacity>
@@ -207,6 +208,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: '80%',
         alignItems: 'center',
+    },
+    modalAddButton: {
+        backgroundColor: 'purple',
+        padding: 15,
+        borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    modalButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
     input: {
         borderWidth: 1,

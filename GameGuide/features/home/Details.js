@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, ImageBackground, TouchableOpacity, TextInput, FlatList } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import styles from "../../style";
 import axios from "axios";
 import { FontAwesome } from "@expo/vector-icons"; // For heart icon
@@ -86,39 +86,43 @@ export default function Details({ route }) {
             <View style={styles.box}><Text style={styles.text}>{synopsis}</Text></View>
             <Image source={image2} style={styles.Image} />
             <View style={styles.box}><Text style={styles.text}>{descripsion}</Text></View>
-
-            {/* Comment Input */}
-            <View style={styles.addCommentContainer}>
-                <TextInput
-                    style={styles.commentInput}
-                    placeholder="Write a comment..."
-                    placeholderTextColor="#888"
-                    value={commentText}
-                    onChangeText={handleCommentChange} // ✅ This updates the state properly
-                    multiline={true}
-                    // autoFocus={true}
-                />
-                <TouchableOpacity onPress={postComment} style={styles.commentButton}>
-                    <Text style={styles.commentButtonText}>Post Comment</Text>
-                </TouchableOpacity>
-            </View>
         </View>
     );
 
     return (
         <ImageBackground source={require('../../assets/background.jpg')} style={styles.background}>
-            <FlatList
-                ListHeaderComponent={renderHeader}
-                data={comments}
-                keyExtractor={(item) => item.comment_id ? item.comment_id.toString() : Math.random().toString()}
-                renderItem={({ item }) => (
-                    <View style={styles.commentBox}>
-                        <Text style={styles.commentUser}>{item.username} - {item.time_stamp}</Text>
-                        <Text style={styles.commentText}>{item.comment_text}</Text>
-                    </View>
-                )}
-                keyboardShouldPersistTaps="handled"
-            />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
+            >
+                <FlatList
+                    ListHeaderComponent={renderHeader}
+                    data={comments}
+                    keyExtractor={(item) => item.comment_id ? item.comment_id.toString() : Math.random().toString()}
+                    renderItem={({ item }) => (
+                        <View style={styles.commentBox}>
+                            <Text style={styles.commentUser}>{item.username} - {item.time_stamp}</Text>
+                            <Text style={styles.commentText}>{item.comment_text}</Text>
+                        </View>
+                    )}
+                    keyboardShouldPersistTaps="handled"
+                />
+                {/* Comment Input */}
+                <View style={styles.addCommentContainer}>
+                    <TextInput
+                        style={styles.commentInput}
+                        placeholder="Write a comment..."
+                        placeholderTextColor="#888"
+                        value={commentText}
+                        onChangeText={handleCommentChange} // ✅ This updates the state properly
+                        multiline={true}
+                        // autoFocus={true}
+                    />
+                    <TouchableOpacity onPress={postComment} style={styles.commentButton}>
+                        <Text style={styles.commentButtonText}>Post Comment</Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
         </ImageBackground>
     );
 }
@@ -145,7 +149,8 @@ const extraStyles = {
         color: "white",
         padding: 12, 
         borderRadius: 8, 
-        marginBottom: 10
+        marginBottom: 10,
+        maxHeight: 100 // Limit height for better UX
     },
     commentButton: { 
         backgroundColor: "#555", // Darker button

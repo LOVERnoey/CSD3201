@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, FlatList, TouchableOpacity, Image, ImageBackground, Text } from "react-native";
+import { useFocusEffect } from '@react-navigation/native';
 import styles from "../../style";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,12 +16,14 @@ export default function Favorite({ navigation }) {
         loadUserData();
     }, []);
 
-    useEffect(() => {
-        if (userId) {
-            fetchFavoriteGames();
-        }
-    }, [userId]);
-    
+    useFocusEffect(
+        useCallback(() => {
+            if (userId) {
+                fetchFavoriteGames();
+            }
+        }, [userId])
+    );
+
     const loadUserData = async () => {
         try {
             const user = await AsyncStorage.getItem("user");
